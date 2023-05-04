@@ -1,0 +1,7 @@
+struct imu_state_lcm {
+    double quat[4];
+    double pos[3];
+    double acc[3];
+    double gyro[3];
+    boolean contact[3];
+}

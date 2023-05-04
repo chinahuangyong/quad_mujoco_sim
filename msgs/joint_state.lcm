@@ -1,0 +1,10 @@
+struct joint_state_lcm {
+    double lf_pos[3];
+    double lf_vel[3];
+    double rf_pos[3];
+    double rf_vel[3];
+    double lb_pos[3];
+    double lb_vel[3];
+    double rb_pos[3];
+    double rb_vel[3];
+}

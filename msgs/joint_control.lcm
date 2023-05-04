@@ -1,0 +1,6 @@
+struct joint_control_lcm {
+    double lf_tau[3];
+    double rf_tau[3];
+    double lb_tau[3];
+    double rb_tau[3];
+}
