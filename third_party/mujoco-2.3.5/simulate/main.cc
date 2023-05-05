@@ -431,18 +431,6 @@ namespace {
                                 }
 
                                 // 此处对机器人进行控制
-//                                if(delay_cnt < 2000) {
-//                                    delay_cnt++;
-//                                } else {
-//                                    if(sim.run && m != nullptr) {
-////            LOG(INFO) << "qpos size: " << m->nu;
-//                                        // 更新机器人状态, 此处先使用仿真直接提供的Body状态
-//                                        pub_joint_state();
-//                                        pub_imu_state();
-//                                        update_state();
-//                                        joint_control_pd();
-//                                    }
-//                                }
 
                                 // call mj_step
                                 mj_step(m, d);
@@ -493,7 +481,7 @@ void PhysicsThread(mj::Simulate *sim, const char *filename) {
 }
 
 //--------------------------------------- algorithm ------------------------------------------------
-void pub_joint_state(void) {
+void pub_joint_state() {
     joint_state_ptr_->rf_pos[0] = d->sensordata[0];
     joint_state_ptr_->rf_pos[1] = d->sensordata[1];
     joint_state_ptr_->rf_pos[2] = d->sensordata[2];
@@ -613,6 +601,7 @@ void ControlThread(mj::Simulate *sim) {
                 pub_joint_state();
                 pub_imu_state();
                 update_state();
+
                 joint_control_pd();
             }
         }
@@ -635,15 +624,15 @@ int main(int argc, const char **argv) {
     google::InitGoogleLogging(argv[0]);
     google::SetStderrLogging(google::INFO);
 
-    joint_state_lcm_ptr_ = std::make_shared<lcm::LCM>("udpm://239.255.76.67:7667?ttl=1");
+    joint_state_lcm_ptr_ = std::make_shared<lcm::LCM>();
     if (!joint_state_lcm_ptr_->good()) {
         LOG(FATAL) << "joint state lcm is not good";
     }
-    imu_state_lcm_ptr_ = std::make_shared<lcm::LCM>("udpm://239.255.76.67:7667?ttl=1");
+    imu_state_lcm_ptr_ = std::make_shared<lcm::LCM>();
     if (!imu_state_lcm_ptr_->good()) {
         LOG(FATAL) << "imu state lcm is not good";
     }
-    joint_control_lcm_ptr_ = std::make_shared<lcm::LCM>("udpm://239.255.76.67:7667?ttl=1");
+    joint_control_lcm_ptr_ = std::make_shared<lcm::LCM>();
     if (!joint_control_lcm_ptr_->good()) {
         LOG(FATAL) << "imu state lcm is not good";
     }
@@ -692,7 +681,7 @@ int main(int argc, const char **argv) {
         filename = argv[1];
     }
 
-    filename = "/home/huangyong1/Software/mujoco_sim/scara_sim/third_party/mujoco-2.3.5/model/quadruped/aliengo/xml/aliengo.xml";
+    filename = "/home/huangyong1/Software/mujoco_sim/quad_mujoco_sim/third_party/mujoco-2.3.5/model/quadruped/aliengo/xml/aliengo.xml";
     std::cout << "filename: " << filename << std::endl;
 
     // start physics thread
