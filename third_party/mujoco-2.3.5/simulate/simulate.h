@@ -148,9 +148,9 @@ class Simulate {
   int ui0_enable = 1;
   int ui1_enable = 1;
   int help = 0;
-  int info = 0;
-  int profiler = 0;
-  int sensor = 0;
+  int info = 1;
+  int profiler = 1;
+  int sensor = 1;
   int fullscreen = 0;
   int vsync = 1;
   int busywait = 0;
